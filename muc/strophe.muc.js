@@ -46,10 +46,11 @@
     (String) password - The optional password to use. (password protected
     rooms only)
     (Object) history_attrs - Optional attributes for retrieving history
+    (Object) irc_attrs - Optional attributes for retrieving IRC headers information
     (XML DOM Element) extended_presence - Optional XML for extending presence
      */
-    join: function(room, nick, msg_handler_cb, pres_handler_cb, roster_cb, password, history_attrs, extended_presence) {
-      var msg, room_nick;
+    join: function(room, nick, msg_handler_cb, pres_handler_cb, roster_cb, password, history_attrs, irc_attrs, extended_presence) {
+      var key, msg, room_nick;
       room_nick = this.test_append_nick(room, nick);
       msg = $pres({
         from: this._connection.jid,
@@ -62,6 +63,16 @@
       }
       if (password != null) {
         msg.cnode(Strophe.xmlElement("password", [], password));
+      }
+      if (typeof irc_attrs === 'object') {
+        msg.up().c('headers', {
+          xmlns: 'http://jabber.org/protocol/shim'
+        });
+        for (key in irc_attrs) {
+          msg.c('header', {
+            name: key
+          }, irc_attrs[key]);
+        }
       }
       if (extended_presence != null) {
         msg.up.cnode(extended_presence);
