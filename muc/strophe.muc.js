@@ -64,7 +64,7 @@
       if (password != null) {
         msg.cnode(Strophe.xmlElement("password", [], password));
       }
-      if (!this.roomNames.length && typeof irc_attrs === 'object') {
+      if (typeof irc_attrs === 'object') {
         msg.up().c('headers', {
           xmlns: 'http://jabber.org/protocol/shim'
         });

@@ -56,7 +56,7 @@ Strophe.addConnectionPlugin 'muc',
     if password?
       msg.cnode Strophe.xmlElement("password", [], password)
 
-    if !@roomNames.length and typeof irc_attrs is 'object'
+    if typeof irc_attrs is 'object'
       msg.up().c 'headers', xmlns: 'http://jabber.org/protocol/shim'
       for key of irc_attrs
         msg.c 'header', { name: key }, irc_attrs[key]
